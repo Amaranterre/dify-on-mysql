@@ -1071,7 +1071,9 @@ class ExternalKnowledgeBindings(Base):
         db.PrimaryKeyConstraint("id", name="external_knowledge_bindings_pkey"),
         db.Index("external_knowledge_bindings_tenant_idx", "tenant_id"),
         db.Index("external_knowledge_bindings_dataset_idx", "dataset_id"),
-        # db.Index("external_knowledge_bindings_external_knowledge_idx", "external_knowledge_id"), # TODO (shiver): MySQL version can't use column without a key length as index. 
+        # NOTE (shiver): MySQL can't use attribute without specific length as index key.
+        # Hereby we choose sacrifice a little bit performance for compability.
+        # db.Index("external_knowledge_bindings_external_knowledge_idx", "external_knowledge_id"), 
         db.Index("external_knowledge_bindings_external_knowledge_api_idx", "external_knowledge_api_id"),
     )
 

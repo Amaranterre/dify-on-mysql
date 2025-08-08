@@ -47,7 +47,12 @@ class ToolOAuthTenantClient(Base):
     id: Mapped[str] = mapped_column(StringUUID, **uuid_default())
     # tenant id
     tenant_id: Mapped[str] = mapped_column(StringUUID, nullable=False)
-    plugin_id: Mapped[str] = mapped_column(db.String(255), nullable=False) # TODO (shiver): should use db.String(512). We reduce it to 255 temporarily
+
+    # NOTE (shiver): In postgres verison, this attribute is set as `db.String(512)`.
+    # When migrating to MySQL, however, it causes incombility, for `db.UniqueConstraint` above
+    # requires total length of keys constrained below 3012 bytes, which can't be fulfilled. 
+    # So we choose to lower the length so that UniqueConstraint can be applied.
+    plugin_id: Mapped[str] = mapped_column(db.String(255), nullable=False)
     provider: Mapped[str] = mapped_column(db.String(255), nullable=False)
     enabled: Mapped[bool] = mapped_column(db.Boolean, nullable=False, server_default=db.text("true"))
     # oauth params of the tool provider
