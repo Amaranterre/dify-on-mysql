@@ -215,3 +215,6 @@ mise.toml
 # AI Assistant
 .roo/
 api/.env.backup
+
+# MySQL compability
+docker/middleware-mysql.env
